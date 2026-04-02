@@ -1,0 +1,21 @@
+# Ignore everything in the root
+/*
+
+# Allow the two requested folders and .gitignore
+!la-gazette-ai/
+!venv/
+!.gitignore
+
+# Ignore heavy/generated items inside la-gazette-ai
+la-gazette-ai/backend/workers/ocr_output/
+la-gazette-ai/backend/workers/ocr_pdfs/
+la-gazette-ai/backend/venv/
+la-gazette-ai/backend/venv-312/
+la-gazette-ai/frontend/node_modules/
+la-gazette-ai/frontend/.next/
+la-gazette-ai/frontend/out/
+
+# Standard Ignores
+**/*.log
+**/__pycache__/
+.DS_Store

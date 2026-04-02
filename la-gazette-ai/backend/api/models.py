@@ -1,0 +1,197 @@
+"""
+Pydantic models for API request/response validation
+"""
+from pydantic import BaseModel, Field
+from typing import Optional, List, Dict
+from datetime import date
+from uuid import UUID
+
+
+# ============================================
+# REQUEST MODELS
+# ============================================
+
+class SearchFilters(BaseModel):
+    """Optional filters for search queries"""
+    type: Optional[str] = Field(None, description="Legal unit type (law, decree, decision, etc.)")
+    year: Optional[int] = Field(None, description="Year of publication")
+    issue_number: Optional[int] = Field(None, description="Issue number")
+    issuer: Optional[str] = Field(None, description="Issuing ministry/organization")
+    date_from: Optional[date] = Field(None, description="Effective date range start")
+    date_to: Optional[date] = Field(None, description="Effective date range end")
+    entity_id: Optional[UUID] = Field(None, description="Filter by extracted entity")
+
+
+class SearchRequest(BaseModel):
+    """Search request payload"""
+    query: str = Field(..., description="Search query in Arabic or French", min_length=0)
+    limit: int = Field(10, description="Maximum number of results", ge=1, le=100)
+    filters: Optional[SearchFilters] = None
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "query": "قوانين الضرائب للشركات الصغيرة",
+                "limit": 10,
+                "filters": {
+                    "type": "decree",
+                    "year": 2025
+                }
+            }
+        }
+
+
+# ============================================
+# RESPONSE MODELS
+# ============================================
+
+class IssueSource(BaseModel):
+    """Source information for a legal unit"""
+    issue_number: int
+    year: int
+    page_number: Optional[int] = None
+
+
+class LegalUnitBase(BaseModel):
+    """Base legal unit information"""
+    id: UUID
+    type: Optional[str]
+    unit_number: Optional[str]
+    title: Optional[str]
+    issuer: Optional[str]
+    effective_date: Optional[date]
+    is_table: bool
+    source: IssueSource
+
+
+class LegalUnitSummary(LegalUnitBase):
+    """Legal unit summary for search results"""
+    content_preview: str = Field(..., description="First 300 characters of content")
+    similarity: float = Field(..., description="Similarity score (0-1)")
+
+
+class LegalUnitDetail(LegalUnitBase):
+    """Full legal unit details"""
+    content: str
+    table_data: Optional[dict] = None
+    is_supplement: bool
+
+
+class SearchResponse(BaseModel):
+    """Search results response"""
+    results: List[LegalUnitSummary]
+    total: int
+    query_time_ms: float
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "results": [
+                    {
+                        "id": "abc-123-def",
+                        "type": "decree",
+                        "unit_number": "1/1277",
+                        "title": "تحديد دقائق تطبيق أحكام المادة ٨٣",
+                        "issuer": "وزارة المالية",
+                        "effective_date": "2024-12-19",
+                        "is_table": False,
+                        "content_preview": "قرار رقم ۱/۱۲۷۷ تاریخ ۱۹ كانون الأول سنة ۲۰۲٤...",
+                        "similarity": 0.89,
+                        "source": {
+                            "issue_number": 9156,
+                            "year": 2025,
+                            "page_number": 3
+                        }
+                    }
+                ],
+                "total": 10,
+                "query_time_ms": 45.2
+            }
+        }
+
+
+class Issue(BaseModel):
+    """Gazette issue metadata"""
+    id: UUID
+    issue_number: int
+    year: int
+    total_pages: Optional[int]
+    publication_date: Optional[date]
+
+
+class IssueListResponse(BaseModel):
+    """List of issues response"""
+    issues: List[Issue]
+    total: int
+
+
+class HealthResponse(BaseModel):
+    """Health check response"""
+    status: str
+    database: str
+    version: str
+
+
+class StatItem(BaseModel):
+    """Single statistic item"""
+    name: str
+    value: int
+
+
+class StatsResponse(BaseModel):
+    """Aggregated statistics response"""
+    total_legal_units: int
+    total_issues: int
+    by_type: List[StatItem]
+    by_issuer: List[StatItem]
+    by_year: List[StatItem]
+
+
+class HeatmapItem(BaseModel):
+    """Calendar heatmap item"""
+    date: str
+    count: int
+
+
+class KeywordItem(BaseModel):
+    """Top keyword item"""
+    text: str
+    value: int
+
+
+class EntityItem(BaseModel):
+    """Extracted entity item"""
+    id: UUID
+    name: str = Field(..., description="Entity name")
+    type: str = Field(..., description="Entity type (PERSON, ORG, LOC)")
+    count: Optional[int] = Field(None, description="Frequency of occurrence")
+
+
+class TreemapItem(BaseModel):
+    """Treemap item"""
+    name: str
+    value: int
+
+
+class MapItem(BaseModel):
+    """Regional map item"""
+    region: str
+    value: int
+    lat: Optional[float] = None
+    lng: Optional[float] = None
+
+
+class TimelineItem(BaseModel):
+    """Legislative timeline event"""
+    date: date
+    title: str
+    status: str
+    description: Optional[str] = None
+    id: UUID
+
+
+class TrendItem(BaseModel):
+    """Historical trend data point"""
+    year: int
+    value: int
+    topic: str

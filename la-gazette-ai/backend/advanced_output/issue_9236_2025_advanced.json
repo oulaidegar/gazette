@@ -1,0 +1,39 @@
+[
+  {
+    "type": "notice",
+    "unit_number": null,
+    "title": "Subscription and Announcement Notice",
+    "issuer": "الجريدة الرسمية",
+    "effective_date": null,
+    "content": "تقبل طلبات الإشتراك خلال شهري تشرين الثاني وكانون الأول\nتقبل الإعلانات الرسمية والخاصة قبل أسبوع من موعد النشر",
+    "is_table": false,
+    "table_data": null,
+    "page_number": 1,
+    "issue_number": 9236,
+    "year": 2025
+  },
+  {
+    "type": "table",
+    "unit_number": null,
+    "title": "Annual Subscription Fees",
+    "issuer": "الجريدة الرسمية",
+    "effective_date": null,
+    "content": "الإشتراك السنوي\n\nداخل لبنان\nالقطاع الخاص ۱۵,۰۰۰,۰۰۰ ليرة لبنانية خارج لبنان ٥٢,٥۰۰,۰۰۰ ليرة لبنانية\nالقطاع العام ٧,٥٠٠,٠٠٠ ليرة لبنانية ثمن العدد ٢٥٠,٠٠٠ ليرة لبنانية",
+    "is_table": true,
+    "table_data": [
+      {
+        "location": "داخل لبنان",
+        "private_sector": "۱٥,۰۰۰,۰۰۰ ليرة لبنانية",
+        "outside_lebanon": "٥٢,٥۰۰,۰۰۰ ليرة لبنانية"
+      },
+      {
+        "location": "القطاع العام",
+        "private_sector": "٧,٥٠٠,٠٠٠ ليرة لبنانية",
+        "outside_lebanon": "ثمن العدد ٢٥٠,٠٠٠ ليرة لبنانية"
+      }
+    ],
+    "page_number": 1,
+    "issue_number": 9236,
+    "year": 2025
+  }
+]

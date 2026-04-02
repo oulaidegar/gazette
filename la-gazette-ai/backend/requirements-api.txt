@@ -1,0 +1,26 @@
+# API Framework
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+pydantic==2.9.2
+pydantic-settings==2.6.1
+
+# Database (let supabase manage postgrest version)
+supabase==2.11.0
+
+# Embeddings
+cohere==5.20.4
+
+# Caching
+redis==5.2.0
+
+# Rate Limiting
+slowapi==0.1.9
+
+# Testing
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.28.1
+
+# Utilities
+python-dotenv==1.0.1

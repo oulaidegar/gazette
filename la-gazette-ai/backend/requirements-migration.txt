@@ -1,0 +1,3 @@
+# Additional dependencies for Supabase migration
+supabase==2.3.4
+tqdm==4.67.1
