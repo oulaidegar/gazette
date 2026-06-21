@@ -19,3 +19,6 @@ la-gazette-ai/frontend/out/
 **/*.log
 **/__pycache__/
 .DS_Store
+**/*.env*
+**/.env
+

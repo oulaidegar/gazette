@@ -5,7 +5,7 @@ The service role key in your `.env` file appears incomplete. Here's how to get t
 ## Current Issue
 Your `.env` has:
 ```
-SUPABASE_SERVICE_KEY=sb_secret_pj1cJcanTYhITX8KIYq53Q_kDt6fz09
+SUPABASE_SERVICE_KEY=sb_secret_your_service_role_key_here
 ```
 
 This is only 47 characters, but the real service role key should be **200+ characters** long.
@@ -46,7 +46,7 @@ SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 ❌ **Incorrect** (too short, starts with `sb_secret`):
 ```
-SUPABASE_SERVICE_KEY=sb_secret_pj1cJcanTYhITX8KIYq53Q_kDt6fz09
+SUPABASE_SERVICE_KEY=sb_secret_your_service_role_key_here
 ```
 
 ## After Updating
